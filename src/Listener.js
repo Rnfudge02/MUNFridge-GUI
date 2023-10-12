@@ -28,3 +28,5 @@ function ListenerUnitTest(debugInfo) {
         return true;
     }
 }
+
+export {Listener, onMouseDown, onMouseUp}
