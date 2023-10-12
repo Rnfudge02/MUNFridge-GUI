@@ -1,12 +1,35 @@
+//Import Three.js (used for 3d rendering) as well as FontLoader addon
 import * as THREE from "three";
+import {FontLoader} from 'three/addons/loaders/FontLoader.js';
 
+const fontLoaded = false;
+
+const objFont = new FontLoader().load('fonts/helvetiker_bold.typeface.json',
+    function(font) {
+        console.log("font Loaded Successfully!");
+        fontLoaded = true;
+    },
+
+    function(xhr) {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    },
+
+    function(err) {
+		console.log('An error happened');
+    }
+)
+
+//Object class (used for rendering an object element in the GUI)
 class Object extends THREE.Group {
+    //Class constructor
     constructor(itemName, itemQty, textureFilename) {
+        //
         super();
 
         this.name = itemName;
         this.qty = itemQty;
 
+        //Create
         let imageGeometry = new THREE.PlaneGeometry();
         let imageTexture = new THREE.TextureLoader().load(textureFilename);
         let imageMaterial = new THREE.MeshStandardMaterial({texture: imageTexture});

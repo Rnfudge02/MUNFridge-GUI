@@ -15,15 +15,18 @@ const renderer = new THREE.WebGLRenderer({canvas: document.querySelector("#scene
 
 //Program entry point
 function initScene() {
+    //Configure renderer
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
 
+    //Create lighting and add to scene
     const ambientLighting = new THREE.AmbientLight(0xFFFFFF, 0.5);
     const pointLighting = new THREE.PointLight(0xFFFFFF, 0.75);
     pointLighting.position.set(10, 10, 10);
 
     scene.add(ambientLighting, pointLighting);
 
+    //If debug flag is set, add light and grid visualizers
     if (DEBUG == 1) {
         const lightHelper = new THREE.PointLightHelper(pointLighting);
         const gridHelper = new THREE.GridHelper(100, 10);
@@ -38,13 +41,16 @@ function initScene() {
     animateScene();
 }
 
+//Main animation loop
 function animateScene() {
     renderer.render(scene, camera);
 
     requestAnimationFrame(animateScene);
 }
 
+//Listener class and event listener initialization
 function initListeners() {
+    //Resizing callback function (using inline function notation)
     window.addEventListener("resize", () => {
         if (DEBUG == true) {
             console.log("Resizing");
@@ -55,9 +61,11 @@ function initListeners() {
         camera.updateProjectionMatrix();
     });
 
+    //Mouse pressed and release events, defined in Listener.js
     window.addEventListener("mousedown", LISTENER.onMouseDown);
     window.addEventListener("mouseup", LISTENER.onMouseUp);
     
+    //Scroll wheel callback function
     window.addEventListener("wheel", (event) => {
         if (event.deltaY > 0) {
             camera.positon.setY(camera.position.y + event.deltaY);
@@ -69,4 +77,5 @@ function initListeners() {
     })
 }
 
+//Call program entry point
 initScene();
