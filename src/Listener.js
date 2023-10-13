@@ -29,4 +29,4 @@ function ListenerUnitTest(debugInfo) {
     }
 }
 
-export {Listener, onMouseDown, onMouseUp}
+export {Listener, ListenerUnitTest, onMouseDown, onMouseUp}

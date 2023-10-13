@@ -1,21 +1,25 @@
 //Import Three.js (used for 3d rendering) as well as FontLoader addon
 import * as THREE from "three";
-import {FontLoader} from 'three/addons/loaders/FontLoader.js';
+import {FontLoader} from "three/addons/loaders/FontLoader.js";
+import {TextGeometry} from "three/addons/geometries/TextGeometry.js";
 
+//Global code to load font for objects
 const fontLoaded = false;
+const fontStr = "fonts/helvetiker_bold.typeface.json"
+const defaultSize = 80;
 
-const objFont = new FontLoader().load('fonts/helvetiker_bold.typeface.json',
+const objFont = new FontLoader().load(fontStr,
     function(font) {
-        console.log("font Loaded Successfully!");
+        console.log("font loaded successfully!");
         fontLoaded = true;
     },
 
     function(xhr) {
-        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        console.log((xhr.loaded / xhr.total * 100) + "% loaded");
     },
 
     function(err) {
-		console.log('An error happened');
+		console.log("Error occured loading font " + fontStr);
     }
 )
 
@@ -28,21 +32,22 @@ class Object extends THREE.Group {
 
         this.name = itemName;
         this.qty = itemQty;
+        this.fontSize = defaultSize;
 
         //Create
         let imageGeometry = new THREE.PlaneGeometry();
         let imageTexture = new THREE.TextureLoader().load(textureFilename);
         let imageMaterial = new THREE.MeshStandardMaterial({texture: imageTexture});
 
-        //let nameGeometry = new THREE.TextGeometry();
-        //let qtyGeometry = new THREE.TextGeometry();
-        //let textMaterial = new MEshStandardMaterial();
+        let nameGeometry = new TextGeometry(this.name, {font: objFont, size: this.fontSize});
+        let qtyGeometry = new TextGeometry(String(this.qty), {font: objFont, size: this.fontSize});
+        let textMaterial = new MeshStandardMaterial();
 
         const imageMesh = new THREE.Mesh(imageGeometry, imageMaterial);
-        //const nameMesh = new THREE.Mesh(nameGeometry, textMaterial);
-        //const qtyMesh = new THREE.Mesh(qtyGeometry, textMaterial);
+        const nameMesh = new THREE.Mesh(nameGeometry, textMaterial);
+        const qtyMesh = new THREE.Mesh(qtyGeometry, textMaterial);
 
-        add(imageMesh);
+        add(imageMesh, nameMesh, qtyMesh);
     }
 
     getName() {
