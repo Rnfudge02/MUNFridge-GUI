@@ -5,9 +5,59 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="./assets/mun_logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href ="src/Style.css"/>
   </head>
   <body>
     <canvas id="scene-container"></canvas>
     <script type="module" src="./src/Scene.js"></script>
+
+    <header>
+      <h1>MUNFridge</h1>
+  </header>
+  <nav>
+      <ul>
+          <li><a href="#shelf1">Top Shelf</a></li>
+          <li><a href="#shelf2">Middle Shelf</a></li>
+          <li><a href="#shelf3">Door Shelf 1</a></li>
+      </ul>
+  </nav>
+  <main>
+      <section id="shelf1">
+          <h2>Top Shelf</h2>
+          <div class="shelf-content">
+              <!--TO BE RELPACED WITH VARYING CODE,
+                 just some static images to give a sense of what it will look like-->
+              <img src="assets/Items/broccoli.png" alt="Item 3">
+              <img src="assets/Items/carrot.png" alt="Item 2">
+              
+          </div>
+      </section>
+      <section id="shelf2">
+          <h2>Middle Shelf</h2>
+          <div class="shelf-content">
+              <img src="assets/Items/orange.png" alt="Item 3">
+              <img src="assets/Items/apple.png" alt="Item 4">
+              <img src="assets/Items/tomato.png" alt="Item 5">
+
+              
+          </div>
+      </section>
+      <section id="shelf3">
+          <h2>Door Shelf 1</h2>
+          <div class="shelf-content">
+              <img src="assets/Items/milk.png" alt="Item 6">
+              <img src="assets/Items/milk.png" alt="Item 7">
+            
+          </div>
+      </section>
+      <section id="expiry">
+          <h2>Expiring Soon</h2>
+          <div class="expiry-content">
+          </div>
+      </section>
+  </main>
+  <footer>
+      <p>&copy; 2023 Smart Fridge Inc.</p>
+  </footer>
   </body>
 </html>

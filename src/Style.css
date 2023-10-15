@@ -3,3 +3,85 @@ scene-container {
   top: 0;
   left: 0;
 }
+
+/*CSS code for the Smart fridge temp screen in index.html. 
+Open to changes/adjustments*/
+body {
+  font-family: Arial, sans-serif;
+}
+
+header {
+  background-color: #007BFF;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+}
+
+h1 {
+  font-size: 32px;
+  margin: 0;
+}
+
+nav {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 0;
+}
+
+nav ul {
+  list-style: none;
+  text-align: center;
+  padding: 0;
+}
+
+nav li {
+  display: inline;
+  margin: 0 10px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+main {
+  padding: 20px;
+}
+
+section {
+  border: 1px solid #ccc;
+  margin: 20px 0;
+  padding: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  margin: 0;
+}
+h3{
+  font-size: 90px;
+  margin: 0;
+  color: red;
+  font-weight: bolder;
+}
+
+.shelf-content, .expiry-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.shelf-content img, .expiry-content img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin: 10px;
+}
+
+footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+}
