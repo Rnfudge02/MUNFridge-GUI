@@ -5,7 +5,7 @@ import {TextGeometry} from "three/addons/geometries/TextGeometry.js";
 
 //Global code to load font for objects
 const fontLoaded = false;
-const fontStr = "fonts/helvetiker_bold.typeface.json"
+const fontStr = "fonts/helvetiker_bold.typeface.json";
 const defaultSize = 80;
 
 const objFont = new FontLoader().load(fontStr,
@@ -41,8 +41,9 @@ class Object extends THREE.Group {
 
         let nameGeometry = new TextGeometry(this.name, {font: objFont, size: this.fontSize});
         let qtyGeometry = new TextGeometry(String(this.qty), {font: objFont, size: this.fontSize});
-        let textMaterial = new MeshStandardMaterial();
+        let textMaterial = new MeshStandardMaterial({color: 0xFFFFFF});
 
+        //Create meshes and add them to the group
         const imageMesh = new THREE.Mesh(imageGeometry, imageMaterial);
         const nameMesh = new THREE.Mesh(nameGeometry, textMaterial);
         const qtyMesh = new THREE.Mesh(qtyGeometry, textMaterial);

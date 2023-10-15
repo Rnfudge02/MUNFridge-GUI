@@ -15,6 +15,9 @@ const renderer = new THREE.WebGLRenderer({canvas: document.querySelector("#scene
 
 //Program entry point
 function initScene() {
+    //Perform Unit Tests
+    ObjectUnitTest();
+
     //Configure renderer
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -33,6 +36,10 @@ function initScene() {
 
         scene.add(lightHelper, gridHelper);
     }
+
+    const testObj = new Object("Apple", 3, "../assets/items/apple.png");
+
+    scene.add(testObj);
 
     renderer.render(scene, camera);
 
