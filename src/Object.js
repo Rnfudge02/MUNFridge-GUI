@@ -4,8 +4,8 @@ import {FontLoader} from "three/addons/loaders/FontLoader.js";
 import {TextGeometry} from "three/addons/geometries/TextGeometry.js";
 
 //Global code to load font for objects
-const fontLoaded = false;
-const fontStr = "fonts/helvetiker_bold.typeface.json";
+var fontLoaded = false;
+const fontStr = "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json";
 const defaultSize = 80;
 
 const objFont = new FontLoader().load(fontStr,
@@ -37,18 +37,18 @@ class Object extends THREE.Group {
         //Create
         let imageGeometry = new THREE.PlaneGeometry();
         let imageTexture = new THREE.TextureLoader().load(textureFilename);
-        let imageMaterial = new THREE.MeshStandardMaterial({texture: imageTexture});
+        let imageMaterial = new THREE.MeshStandardMaterial({map: imageTexture});
 
         let nameGeometry = new TextGeometry(this.name, {font: objFont, size: this.fontSize});
         let qtyGeometry = new TextGeometry(String(this.qty), {font: objFont, size: this.fontSize});
-        let textMaterial = new MeshStandardMaterial({color: 0xFFFFFF});
+        let textMaterial = new THREE.MeshStandardMaterial({color: 0xFFFFFF});
 
         //Create meshes and add them to the group
         const imageMesh = new THREE.Mesh(imageGeometry, imageMaterial);
         const nameMesh = new THREE.Mesh(nameGeometry, textMaterial);
         const qtyMesh = new THREE.Mesh(qtyGeometry, textMaterial);
 
-        add(imageMesh, nameMesh, qtyMesh);
+        this.add(imageMesh, nameMesh, qtyMesh);
     }
 
     getName() {
@@ -69,7 +69,7 @@ class Object extends THREE.Group {
 }
 
 function ObjectUnitTest(debugInfo) {
-    let TestObject = new Object("TestObject", 3,  "../assets/TestObject.png");
+    let TestObject = new Object("TestObject", 3,  "../assets/Items/TestObject.png");
 
     if (debugInfo) {
         console.log("", TestObject);

@@ -16,7 +16,7 @@ const renderer = new THREE.WebGLRenderer({canvas: document.querySelector("#scene
 //Program entry point
 function initScene() {
     //Perform Unit Tests
-    //ObjectUnitTest();
+    OBJECT.ObjectUnitTest();
 
     //Configure renderer
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -75,11 +75,19 @@ function initListeners() {
     //Scroll wheel callback function
     window.addEventListener("wheel", (event) => {
         if (event.deltaY > 0) {
-            camera.positon.setY(camera.position.y + event.deltaY);
+            if (DEBUG == true) {
+                console.log("Scrolling Up");
+                console.log(camera.position.y);
+            }
+            camera.position.setY(camera.position.y + event.deltaY);
         }
 
         else if (event.deltaY < 0) {
-            camera.position.setY(camera.position.y - event.deltaY);
+            if (DEBUG == true) {
+                console.log("Scrolling Down");
+                console.log(camera.position.y);
+            }
+            camera.position.setY(camera.position.y + event.deltaY);
         }
     })
 }
