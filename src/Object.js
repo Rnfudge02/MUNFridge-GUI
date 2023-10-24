@@ -6,22 +6,26 @@ import {TextGeometry} from "three/addons/geometries/TextGeometry.js";
 //Global code to load font for objects
 var fontLoaded = false;
 const fontStr = "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json";
-const defaultSize = 80;
+const defaultSize = 12;
 
-const objFont = new FontLoader().load(fontStr,
-    function(font) {
-        console.log("font loaded successfully!");
-        fontLoaded = true;
-    },
+var objFont;
 
-    function(xhr) {
-        console.log((xhr.loaded / xhr.total * 100) + "% loaded");
-    },
-
-    function(err) {
-		console.log("Error occured loading font " + fontStr);
-    }
-)
+function loadFont() {
+    objFont = new FontLoader().load(fontStr,
+        function(font) {
+            console.log("font loaded successfully!");
+            fontLoaded = true;
+        },
+    
+        function(xhr) {
+            console.log("%d bytes loaded out of %d bytes", xhr.loaded, xhr.total);
+        },
+    
+        function(err) {
+            console.log("Error occured loading font " + fontStr);
+        }
+    )
+}
 
 //Object class (used for rendering an object element in the GUI)
 class Object extends THREE.Group {
@@ -29,6 +33,11 @@ class Object extends THREE.Group {
     constructor(itemName, itemQty, textureFilename) {
         //
         super();
+
+        if (!fontLoaded) {
+            console.log("Waiting for font to finish loading");
+            loadFont();
+        }
 
         this.name = itemName;
         this.qty = itemQty;
@@ -48,6 +57,10 @@ class Object extends THREE.Group {
         const nameMesh = new THREE.Mesh(nameGeometry, textMaterial);
         const qtyMesh = new THREE.Mesh(qtyGeometry, textMaterial);
 
+        imageMesh.position.set(0, 0, 0);
+        nameMesh.position.set(1, 0, 0);
+        qtyMesh.position.set(2, 0, 0);
+
         this.add(imageMesh, nameMesh, qtyMesh);
     }
 
@@ -64,7 +77,7 @@ class Object extends THREE.Group {
     }
 
     updateQty(newQty) {
-        this.itemQty = newQty;
+        this.qty = newQty;
     }
 }
 
@@ -89,7 +102,7 @@ function ObjectUnitTest(debugInfo) {
     TestObject.updateQty(5);
 
     if (TestObject.getName() != "TestObject2" || TestObject.getQty() != 5) {
-        console.log("Object Unit Test 3 (Mutators) Failed...");
+        console.log("Object Unit Test 3 (Mutators) Failed...\n Expected: TestObject2 & 5, got %s & %d", TestObject.getName(), TestObject.getQty());
         return false;
     }
 

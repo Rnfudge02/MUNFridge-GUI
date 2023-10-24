@@ -11,6 +11,8 @@ import * as USER from "../src/User.js";
 const DEBUG = true;
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+camera.position.setZ(6);
+
 const renderer = new THREE.WebGLRenderer({canvas: document.querySelector("#scene-container")});
 
 //Program entry point
@@ -37,9 +39,11 @@ function initScene() {
         scene.add(lightHelper, gridHelper);
     }
 
-    //const testObj = new Object("Apple", 3, "../assets/items/apple.png");
+    const testObj = new OBJECT.Object("Apple", 3, "../assets/items/apple.png");
 
-    //scene.add(testObj);
+    console.log("", testObj);
+
+    scene.add(testObj);
 
     renderer.render(scene, camera);
 
