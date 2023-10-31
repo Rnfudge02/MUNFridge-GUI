@@ -1,5 +1,7 @@
 import * as THREE from "three"
 
+const RAYCASTDEBUG = true;
+
 class RaycastHandler {
     constructor() {
         this.raycaster = new THREE.Raycaster();
@@ -26,20 +28,41 @@ class RaycastHandler {
     }
 
     setPos(xPos, yPos) {
+        if (RAYCASTDEBUG == true) {
+            console.log("xPos %d, yPos %d", xPos, yPos);
+        }
+
         this.pos.set(xPos, yPos);
     }
 
     setDepressed() {
+        if (RAYCASTDEBUG == true) {
+            console.log("Raycaster detecting mouse has been depressed");
+        }
+
         this.mouseDepressed = true;
     }
 
     setReleased() {
+        if (RAYCASTDEBUG == true) {
+            console.log("Raycaster detecting mouse has been released");
+        }
+
         this.mouseDepressed = false;
     }
 
     link(checklist) {
+        if (RAYCASTDEBUG == true) {
+            console.log("Items added to raycast tracking:", checklist)
+        }
+
         this.checklist = checklist;
     }
 }
 
-export {RaycastHandler};
+function RaycastHandlerUnitTest() {
+    const rHandler = new RaycastHandler();
+    
+}
+
+export {RaycastHandler, RaycastHandlerUnitTest};

@@ -2,66 +2,65 @@
 import * as THREE from "three";
 import {FontLoader} from "three/addons/loaders/FontLoader.js";
 import {TextGeometry} from "three/addons/geometries/TextGeometry.js";
+import helvetiker from "three/examples/fonts/helvetiker_regular.typeface.json";
 
 //Global code to load font for objects
 var fontLoaded = false;
-const fontStr = "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json";
-const defaultSize = 12;
-
 var objFont;
-
-function loadFont() {
-    objFont = new FontLoader().load(fontStr,
-        function(font) {
-            console.log("font loaded successfully!");
-            fontLoaded = true;
-        },
-    
-        function(xhr) {
-            console.log("%d bytes loaded out of %d bytes", xhr.loaded, xhr.total);
-        },
-    
-        function(err) {
-            console.log("Error occured loading font " + fontStr);
-        }
-    )
-}
 
 //Object class (used for rendering an object element in the GUI)
 class Object extends THREE.Group {
     //Class constructor
     constructor(itemName, itemQty, textureFilename) {
-        //
+        //Super() needs to be called to
         super();
 
+        //Wait for font to load before continuing with class creation
         if (!fontLoaded) {
             console.log("Waiting for font to finish loading");
-            loadFont();
+            objFont = new FontLoader().parse(helvetiker);
+            fontLoaded = true;
         }
 
+        //Add attributes to class
         this.name = itemName;
         this.qty = itemQty;
-        this.fontSize = defaultSize;
+        this.fontSize = 0.5;
 
         //Create
-        let imageGeometry = new THREE.PlaneGeometry();
+        let backgroundGeometry = new THREE.BoxGeometry(4, 4, 0.10);
+        let backgroundTexture = new THREE.TextureLoader().load("../assets/background.jpg");
+        let backgroundMaterial = new THREE.MeshStandardMaterial({map: backgroundTexture});
+
+        let imageGeometry = new THREE.PlaneGeometry(1, 1);
         let imageTexture = new THREE.TextureLoader().load(textureFilename);
         let imageMaterial = new THREE.MeshStandardMaterial({map: imageTexture});
 
-        let nameGeometry = new TextGeometry(this.name, {font: objFont, size: this.fontSize});
-        let qtyGeometry = new TextGeometry(String(this.qty), {font: objFont, size: this.fontSize});
+        let nameGeometry = new TextGeometry(this.name, {font: objFont, size: this.fontSize, height: 0.05});
+        let qtyGeometry = new TextGeometry(String(this.qty), {font: objFont, size: this.fontSize, height: 0.05});
         let textMaterial = new THREE.MeshStandardMaterial({color: 0xFFFFFF});
 
         //Create meshes and add them to the group
+        const backgroundMesh = new THREE.Mesh(backgroundGeometry, backgroundMaterial)
         const imageMesh = new THREE.Mesh(imageGeometry, imageMaterial);
         const nameMesh = new THREE.Mesh(nameGeometry, textMaterial);
         const qtyMesh = new THREE.Mesh(qtyGeometry, textMaterial);
 
-        imageMesh.position.set(0, 0, 0);
-        nameMesh.position.set(1, 0, 0);
-        qtyMesh.position.set(2, 0, 0);
+        //Compute text bounding boxes
+        nameGeometry.computeBoundingBox();
+        qtyGeometry.computeBoundingBox();
+        let nameOffset = -nameGeometry.boundingBox.max.x / 2;
+        console.log(nameGeometry.boundingBox);
+        let qtyOffset = -qtyGeometry.boundingBox.max.x / 2;
 
-        this.add(imageMesh, nameMesh, qtyMesh);
+        //TODO: Needs appropriate scaling
+        backgroundMesh.position.set(0, -1, -0.1);
+        imageMesh.position.set(0, 0, 0);
+        nameMesh.position.set(nameOffset, -1, 0);
+        qtyMesh.position.set(qtyOffset, -2, 0);
+
+        //Add meshes to group
+        this.add(backgroundMesh, imageMesh, nameMesh, qtyMesh);
     }
 
     getName() {
@@ -110,8 +109,6 @@ function ObjectUnitTest(debugInfo) {
         console.log("All Object Unit Tests Passed Successfully!");
         return true;
     }
-
-    
 }
 
 export {Object, ObjectUnitTest};
