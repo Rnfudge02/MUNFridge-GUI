@@ -4,7 +4,6 @@ import {FontLoader} from "three/addons/loaders/FontLoader.js";
 import {TextGeometry} from "three/addons/geometries/TextGeometry.js";
 import helvetiker from "three/examples/fonts/helvetiker_regular.typeface.json";
 
-//Global code to load font for objects
 var fontLoaded = false;
 var objFont;
 
@@ -12,10 +11,8 @@ var objFont;
 class Object extends THREE.Group {
     //Class constructor
     constructor(itemName, itemQty, textureFilename) {
-        //Super() needs to be called to
         super();
 
-        //Wait for font to load before continuing with class creation
         if (!fontLoaded) {
             console.log("Waiting for font to finish loading");
             objFont = new FontLoader().parse(helvetiker);
@@ -41,10 +38,10 @@ class Object extends THREE.Group {
         let textMaterial = new THREE.MeshStandardMaterial({color: 0xFFFFFF});
 
         //Create meshes and add them to the group
-        const backgroundMesh = new THREE.Mesh(backgroundGeometry, backgroundMaterial)
-        const imageMesh = new THREE.Mesh(imageGeometry, imageMaterial);
-        const nameMesh = new THREE.Mesh(nameGeometry, textMaterial);
-        const qtyMesh = new THREE.Mesh(qtyGeometry, textMaterial);
+        this.backgroundMesh = new THREE.Mesh(backgroundGeometry, backgroundMaterial)
+        this.imageMesh = new THREE.Mesh(imageGeometry, imageMaterial);
+        this.nameMesh = new THREE.Mesh(nameGeometry, textMaterial);
+        this.qtyMesh = new THREE.Mesh(qtyGeometry, textMaterial);
 
         //Compute text bounding boxes
         nameGeometry.computeBoundingBox();
@@ -54,13 +51,13 @@ class Object extends THREE.Group {
         let qtyOffset = -qtyGeometry.boundingBox.max.x / 2;
 
         //TODO: Needs appropriate scaling
-        backgroundMesh.position.set(0, -1, -0.1);
-        imageMesh.position.set(0, 0, 0);
-        nameMesh.position.set(nameOffset, -1, 0);
-        qtyMesh.position.set(qtyOffset, -2, 0);
+        this.backgroundMesh.position.set(0, -1, -0.1);
+        this.imageMesh.position.set(0, 0, 0);
+        this.nameMesh.position.set(nameOffset, -1, 0);
+        this.qtyMesh.position.set(qtyOffset, -2, 0);
 
         //Add meshes to group
-        this.add(backgroundMesh, imageMesh, nameMesh, qtyMesh);
+        this.add(this.backgroundMesh, this.imageMesh, this.nameMesh, this.qtyMesh);
     }
 
     getName() {
@@ -77,6 +74,12 @@ class Object extends THREE.Group {
 
     updateQty(newQty) {
         this.qty = newQty;
+    }
+
+    onLoop() {
+        if (this.focus == true) {
+
+        }
     }
 }
 
